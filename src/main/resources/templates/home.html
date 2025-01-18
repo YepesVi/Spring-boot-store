@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles">
+
+</head>
+
+<body>
+  <header th:insert="fragments :: nav"></header>
+
+    <div class="container">
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4" sec:authorize="!isAuthenticated()">Debes iniciar sesion</h1>
+          <h1 class="display-4" sec:authorize="isAuthenticated()">Hola <Span sec:authentication="principal.nombre"></Span></h1>
+          <div sec:authorize="isAuthenticated()" >
+            <p class="lead" th:if="${!#authentication.principal.status}">Actualmente su usuario esta inactivo, contacte con el administrador.</p>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+
+    <footer th:insert="fragments :: footer"></footer>
+    <div th:insert="fragments :: scripts"></div>
+
+
+</body>
+
+</html>

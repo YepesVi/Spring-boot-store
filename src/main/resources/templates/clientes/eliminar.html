@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"   >
+
+<head th:insert="fragments :: headerFiles">
+
+<body>
+    <header th:insert="fragments :: nav"></header>
+
+    <div sec:authorize="hasRole('ROLE_Admin_cliente') || hasRole('ROLE_ADMIN')" class="container">
+        <h1 class="text-center border border-success border-bottom  border-0"  th:text="${titulo2}"></h1>
+        
+
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th >Id</th>
+                    <th >Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th  >Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente:${cliente}">
+                    <td th:text="${cliente.id}"></td>
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.apellido}"></td>
+                    <td th:text="${cliente.email}"></td>
+                    <td th:text="${cliente.createAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_Admin_cliente') || hasRole('ROLE_ADMIN')"  class="container">
+
+        <h1 class="text-primary border border-success border-bottom  border-0" ></h1>
+        <!-- 2 agregar lista de errores -->
+        <!-- <div th:object="${cliente}">
+            <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div> -->
+
+        <form th:action="@{/eliminar(id=${clienteEliminar.id})}" th:object="${clienteEliminar}" th:if="${clienteEliminar}" method="post">
+           
+            
+            
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="submit" value="Eliminar cliente" class="btn btn-primary" />
+                </div>
+            </div>
+            
+        </form>
+
+
+        <footer th:insert="fragments :: footer"></footer>
+    <div th:insert="fragments :: scripts"></div>
+    </div>
+</body>
+
+</html>

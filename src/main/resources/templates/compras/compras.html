@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles">
+
+<body>
+
+  <header th:insert="fragments :: nav"></header>
+
+      <div class="container">
+        <h3 class="text-center border border-success border-bottom  border-0"  th:text="${titulo2}"></h3>
+        
+
+        <table class="table table-dark">
+            <thead>
+                <tr >
+                    
+                    <th >Id</th>
+                    <th >Nombre</th>
+                    <th >Apellido</th>
+                    <th  >Email</th>
+                    <th  >Fecha</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr th:object="${cliente}">
+                    <td th:text="${cliente.id}"></td>
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.apellido}"></td>
+                    <td th:text="${cliente.email}"></td>
+                    <td th:text="${cliente.createAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="text-center border border-success border-bottom  border-0" >Informacion de Compra</h3>
+        
+        <table class="table table-dark">
+            <thead>
+                <tr >
+                    
+                    <th >Id</th>
+                    <th >Id_cliente</th>
+                    <th> SubTotal</th>
+                    <th> Descuento aplicado</th>
+                    <th >Total</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr th:object="${compra}">
+                    <td th:text="${compra.id}"></td>
+                    <td th:text="${compra.cliente.id}"></td>
+                    <td th:text="${compra.subTotal}"></td>
+                    <td th:text="${compra.descuento}"></td>
+                    <td th:text="${compra.valor}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        </div>
+        
+        
+    </div>
+    
+    <div class="container" th:if="${detalle}">
+      <h5 class="text-center border border-success border-bottom  border-0"  th:text="${titulo3}" th:if="${detalle}"></h5>
+      
+
+      <table class="table table-dark">
+          <thead>
+              <tr >
+                <th> Eliminar</th>
+                <th>Id compra</th>
+                <th >Id producto</th>
+                <th >Nombre</th>
+                <th  >Descripcion</th>
+                <th  >valor Unitario</th>
+                <th  >valor a cobrar</th>
+                <th  >descuento</th>
+                <th  >Cantidad</th>
+              </tr>
+              
+          </thead>
+          <tbody>
+              <tr th:each="detalle:${detalle}">
+                  <td> 
+                    <div class="d-flex gap-2 justify-content-center">
+                    <a th:href="@{/quitar(cliente_id=${cliente.id},compra_id=${detalle.compra.id}, detalle_id=${detalle.id})}" class="btn btn-danger rounded-pill px-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                      </svg>
+                    </a>
+                    </div>
+                  </td>
+                  <td th:text="${detalle.compra.id}"></td>
+                  <td th:text="${detalle.producto.id}"></td>
+                  <td th:text="${detalle.producto.nombre}"></td>
+                  <td th:text="${detalle.producto.descripcion}"></td>
+                  <td th:text="${detalle.producto.valorUnidad}"></td>
+                  <td th:text="${detalle.valor}"></td>
+                  <td th:text="${detalle.descuento}"></td>
+                  <td th:text="${detalle.cantidad}"></td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+    <div class="d-flex gap-2 justify-content-center">
+    <a th:href="@{/compra(cliente_id=${cliente.id}, compra_id=${compra.id})}" class="btn btn-warning rounded-pill px-10" >Agregar Nuevo Producto</a>
+
+  </div>
+<br>
+  <div class="d-flex gap-2 justify-content-center">
+    <form th:action="@{/compras(compra_id=${compra.id})}" method="post">
+      <button type="submit" class="btn btn-danger rounded-pill px-10">Cancelar Compra</button>
+  </form>
+  <a th:href="@{/detalle(compra_id=${compra.id})}" th:if="${detalle}" class="btn btn-success rounded-pill px-10" >Guardar Compra</a>
+
+  
+  </div>
+
+  <footer th:insert="fragments :: footer"></footer>
+  <div th:insert="fragments :: scripts"></div>
+</body>
+
+</html>

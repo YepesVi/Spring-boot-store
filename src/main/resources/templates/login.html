@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles">
+
+</head>
+
+<body>
+  <header th:insert="fragments :: nav"></header>
+
+    <div class="container d-flex justify-content-center">
+
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" th:href="@{/login}">
+                        <i class="fa-solid fa-user"></i> Log in</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" th:href="@{/singup}">
+                        <i class="fa-solid fa-user-plus"></i> Sing up</a>
+                    </li>
+                  </ul>
+            </div>
+            <div class="card-body">
+
+                <div    th:if="${registroOK}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p th:text="${registroOK}"></p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                <form th:action="@{/signin}"  th:object="${cliente}" method="post">
+                  <div class="form-group ">
+                    <label for="email" class="">Email</label>
+                    <div class="">
+                      <input th:field="*{email}" th:errorclass="'form-control alert alert-danger'" type="email" id="email" name="email" class="form-control"  placeholder="Email">
+                      <small class="form-text text-danger"  th:if="${#fields.errors('email')}" th:errors="*{email}"></small>
+                   
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <label for="clave" class="">Password</label>
+                    <div class="">
+                      <input th:field="*{clave}" th:errorclass="'form-control alert alert-danger'" type="password" id="clave" class="form-control" name="clave" placeholder="Password">
+                      <small class="form-text text-danger"  th:if="${#fields.errors('clave')}" th:errors="*{clave}"></small>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="checkRememberMe" name="checkRememberMe">
+                        <label class="form-check-label" for="checkRememberMe">Recordar
+                        </label>
+                      </div>
+                      <div class="">
+                        <button type="submit" class="btn btn-outline-success btn-block">
+                            <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div    th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p>
+                      <i class="fa-solid fa-circle-exclamation"></i> Credenciales erroneas</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+            </div>
+          </div>
+      
+    </div>
+
+
+    <footer th:insert="fragments :: footer"></footer>
+    <div th:insert="fragments :: scripts"></div>
+
+
+</body>
+
+</html>

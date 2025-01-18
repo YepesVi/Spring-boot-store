@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles">
+
+<body>
+
+  <header th:insert="fragments :: nav"></header>
+
+      <div class="container">
+        <h3 class="text-center border border-success border-bottom  border-0"  th:text="${titulo2}"></h3>
+        
+
+       
+        
+        <table class="table table-dark">
+            <thead>
+                <tr >
+                    
+                    <th >Id</th>
+                    <th >Id_cliente</th>
+                    <th>Fecha</th>
+                    <th> SubTotal</th>
+                    <th> Descuento aplicado</th>
+                    <th >Total</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr th:object="${compra}">
+                    <td th:text="${compra.id}"></td>
+                    <td th:text="${compra.cliente.id}"></td>
+                    <td th:text="${compra.createAt}"></td>
+                    <td th:text="${compra.subTotal}"></td>
+                    <td th:text="${compra.descuento}"></td>
+                    <td th:text="${compra.valor}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        </div>
+        
+        
+    </div>
+    
+    <div class="container" th:if="${detalle}">
+      <h5 class="text-center border border-success border-bottom  border-0"  th:text="${titulo3}" th:if="${detalle}"></h5>
+      
+
+      <table class="table table-dark">
+          <thead>
+              <tr >
+                <th>Id compra</th>
+                <th >Id producto</th>
+                <th >Nombre</th>
+                <th  >Descripcion</th>
+                <th  >valor Unitario</th>
+                <th  >valor a cobrar</th>
+                <th  >descuento</th>
+                <th  >Cantidad</th>
+              </tr>
+              
+          </thead>
+          <tbody>
+              <tr th:each="detalle:${detalle}">
+                  <td th:text="${detalle.compra.id}"></td>
+                  <td th:text="${detalle.producto.id}"></td>
+                  <td th:text="${detalle.producto.nombre}"></td>
+                  <td th:text="${detalle.producto.descripcion}"></td>
+                  <td th:text="${detalle.producto.valorUnidad}"></td>
+                  <td th:text="${detalle.valor}"></td>
+                  <td th:text="${detalle.descuento}"></td>
+                  <td th:text="${detalle.cantidad}"></td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  <br>
+  <div class="d-flex gap-2 justify-content-center">
+    <form th:action="@{/compras(compra_id=${compra.id})}" method="post">
+      <button type="submit" class="btn btn-danger rounded-pill px-10">Eliminar Factura</button>
+    </form>
+
+  
+  </div>
+
+    <footer th:insert="fragments :: footer"></footer>
+    <div th:insert="fragments :: scripts"></div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles"><head th:insert="fragments :: headerFiles"></head>
+
+<body >
+    <header th:insert="fragments :: nav"></header>
+
+    <div th:if="${#authentication.principal.status}" sec:authorize="hasRole('ROLE_Admin_producto') || hasRole('ROLE_ADMIN')" class="container">
+        <h1 class="text-center border border-success border-bottom  border-0"  th:text="${titulo2}"></h1>
+        
+
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    
+                    <th >Id</th>
+                    <th >Nombre</th>
+                    <th >Descripcion</th>
+                    <th  >Valor unitario</th>
+                    <th  >Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr th:each="producto:${producto}" th:if="${producto}">
+                  <td th:text="${producto.id}"></td>
+                  <td th:text="${producto.nombre}"></td>
+                  <td th:text="${producto.descripcion}"></td>
+                  <td th:text="${producto.valorUnidad}"></td>
+                  <td th:text="${producto.stock}"></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#authentication.principal.status}" sec:authorize="hasRole('ROLE_Admin_producto') || hasRole('ROLE_ADMIN')" class="container">
+
+        <h3 class="text-primary border border-success border-bottom  border-0" th:text="${titulo3}"></h3>
+        <!-- 2 agregar lista de errores -->
+        <!-- <div th:object="${cliente}">
+            <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div> -->
+
+
+        <form th:action="@{/productos/editar(id=${productoEditar.id})}" th:object="${productoEditar}" th:if="${productoEditar}" method="post">
+           
+            
+           
+           
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Nombre</label>
+                <div class="col-sm-6">
+                    <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="'form-control alert alert-danger'"/>
+                    <small class="form-text text-danger"  th:if="${#fields.errors('nombre')}" th:errors="*{nombre}"></small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Descripcion</label>
+                <div class="col-sm-6">
+                    <input type="text" th:field="*{descripcion}" class="form-control" th:errorclass="'form-control alert alert-danger'"/>
+                    <small class="form-text text-danger"  th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Valor unitario</label>
+                <div class="col-sm-6">
+                    <input type="number" th:field="*{valorUnidad}" class="form-control" th:errorclass="'form-control alert alert-danger'"/>
+                    <small class="form-text text-danger"  th:if="${#fields.hasErrors('valorUnidad')}" th:errors="*{valorUnidad}"></small>
+                </div>
+                
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Stock</label>
+                <div class="col-sm-6">
+                    <input type="number" th:field="*{stock}" class="form-control" th:errorclass="'form-control alert alert-danger'"/>
+                    <small class="form-text text-danger"  th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></small>
+                </div>
+                
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="submit" value="Editar producto" class="btn btn-primary" />
+                </div>
+            </div>
+            
+        </form>
+
+        <div    th:if="${error}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong></strong> <p th:text="${error}"></p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+        
+        <div th:insert="fragments :: scripts"></div>
+    </div>
+</body>
+
+</html>

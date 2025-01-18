@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="fragments :: headerFiles">
+
+<body>
+
+  <header th:insert="fragments :: nav"></header>  
+
+    <div class="container">
+
+        <h3 class="text-center border border-success border-bottom  border-0" th:text="${titulo}" ></h3>
+        
+        <table class="table table-dark">
+            <thead>
+                <tr >
+                    <th> Detalles </th>
+                    <th >Id</th>
+                    <th >Id_cliente</th>
+                    <th> Fecha</th>
+                    <th> SubTotal</th>
+                    <th> Descuento aplicado</th>
+                    <th >Total</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr th:each="compra:${compra}">
+                    <td>
+                      <div class="d-flex gap-2 justify-content-center">
+                        <a th:href="@{/detalle(compra_id=${compra.id})}" class="btn btn-success rounded-pill px-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up-left" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M9.636 13.5a.5.5 0 0 1-.5.5H2.5A1.5 1.5 0 0 1 1 12.5v-10A1.5 1.5 0 0 1 2.5 1h10A1.5 1.5 0 0 1 14 2.5v6.636a.5.5 0 0 1-1 0V2.5a.5.5 0 0 0-.5-.5h-10a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h6.636a.5.5 0 0 1 .5.5"/>
+                              <path fill-rule="evenodd" d="M5 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H6.707l8.147 8.146a.5.5 0 0 1-.708.708L6 6.707V10.5a.5.5 0 0 1-1 0z"/>
+                          </svg>
+                      </a>
+                      </div>
+                    </td>
+                    <td th:text="${compra.id}"></td>
+                    <td th:text="${compra.cliente.id}"></td>
+                    <td th:text="${compra.createAt}"></td>
+                    <td th:text="${compra.subTotal}"></td>
+                    <td th:text="${compra.descuento}"></td>
+                    <td th:text="${compra.valor}"></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        
+        </div>
+        
+        
+      </div>
+        <div class="col-lg-6 col-xxl-4 my-5 mx-auto">
+          <div class="">
+            <a th:href="@{/productos/form}" class="btn btn-success rounded-pill px-10" th:if="${producto}">Ingresar nueva compra</a>
+          </div>
+        </div>
+        
+        
+    </div>
+    <footer th:insert="fragments :: footer"></footer>
+    <div th:insert="fragments :: scripts"></div>
+</body>
+
+</html>
